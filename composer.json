@@ -1,8 +1,6 @@
 {
     "name": "root/luhn",
-    "require": {
-        "phpunit/phpunit": "^6.0"
-    },
+    "require": {},
     "require-dev": {
         "phpunit/phpunit": "^6.0"
     },
@@ -11,5 +9,8 @@
             "name": "Vlad Sventik",
             "email": "sventik.vlad@gmail.com"
         }
-    ]
+    ],
+     "autoload": {
+        "psr-4": {"LuhnAlgorithm\\": "src/"}
+    }
 }
