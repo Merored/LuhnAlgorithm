@@ -18,7 +18,6 @@ class LuhnAlgorithm {
 			}
 
 			$summ += $num;
-			$sum = $summ;
 		}
 
 
