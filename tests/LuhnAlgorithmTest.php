@@ -45,8 +45,6 @@ class LuhnAlgorithmTest extends PHPUnit\Framework\TestCase
 		$this->assertEquals(["4561261212345467"],$this->luhnAlgorithm->generateValidNumbersFromTemplate()); 
 		$this->luhnAlgorithm->setTemplate("124X5");
 		$this->assertEquals(["12475"],$this->luhnAlgorithm->generateValidNumbersFromTemplate()); 
-
-		
 	}
 
 
