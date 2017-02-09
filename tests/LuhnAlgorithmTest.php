@@ -15,20 +15,22 @@ class LuhnAlgorithmTest extends PHPUnit\Framework\TestCase
 
 	public function testCheckThrowsException() {
 		$this->expectException(InvalidArgumentException::class);	
-		$this->luhnAlgorithm->checkLuhn(1);
+		$this->luhnAlgorithm->numberSetter(1);
 	}
 
 	public function testCheckReturnsCorrectAnswer() {
-		$this->assertTrue( $this->luhnAlgorithm->checkLuhn("4561261212345467")); 
+		$this->luhnAlgorithm->numberSetter("4561261212345467");
+		$this->assertTrue( $this->luhnAlgorithm->checkLuhn()); 
 	}
 
 	public function testGetThrowsException() {
 		$this->expectException(InvalidArgumentException::class);	
-		$this->luhnAlgorithm->getLuhn(1);
+		$this->luhnAlgorithm->numberSetter(1);
 	}
 
 	public function testGetReturnsCorrectAnswer() {
-		$this->assertEquals("7", $this->luhnAlgorithm->getLuhn("456126121234546")); 
+		$this->luhnAlgorithm->numberSetter("456126121234546");
+		$this->assertEquals("7", $this->luhnAlgorithm->getLuhn()); 
 	}
 
 	

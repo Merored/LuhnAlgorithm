@@ -4,11 +4,23 @@ use InvalidArgumentException;
 
 
 class LuhnAlgorithm {
-	private function checkHashLuhn($strNumber) {
-		$N = strlen($strNumber);
+
+	protected $strNumber;
+
+	public function numberSetter($number){
+
+		if (!is_string($number)) {
+			throw new InvalidArgumentException;
+		}
+		$this->strNumber = $number;
+
+	}
+
+	private function checkHashLuhn() {
+		$N = strlen($this->strNumber);
 		$summ = 0;	
 		for ($i = 1; $i < $N-1; $i++) {
-			$num  =  $strNumber[$N - $i]; 
+			$num  =  $this->strNumber[$N - $i]; 
 			if ($i % 2 == 0) {
 				$num = $num * 2;
 				if ($num > 9) {
@@ -32,15 +44,11 @@ class LuhnAlgorithm {
 
 
 
-	public function checkLuhn($strNumber) {
+	public function checkLuhn() {
 
-		if (!is_string($strNumber)) {
-			throw new InvalidArgumentException;
-		}
-
-		$Hash = $strNumber[strlen($strNumber) - 1]	;
-		$strNumber  = substr($strNumber, 0, -1);
-		$summ = $this->checkHashLuhn($strNumber);
+		$Hash = $this->strNumber[strlen($this->strNumber) - 1]	;
+		$this->strNumber  = substr($this->strNumber, 0, -1);
+		$summ = $this->checkHashLuhn($this->strNumber);
 		if ($summ == $Hash) {
 			return true;
 		}
@@ -51,15 +59,9 @@ class LuhnAlgorithm {
 
 
 
-	public function getLuhn($strNumber) {
-		
-		
-		if (!is_string($strNumber)) {
-			throw new InvalidArgumentException;
-		}
+	public function getLuhn() {
 
-
- 		$summ = $this->checkHashLuhn($strNumber);
+ 		$summ = $this->checkHashLuhn($this->strNumber);
  		return $summ;		
 	}
 }
