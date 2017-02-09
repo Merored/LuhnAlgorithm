@@ -5,68 +5,78 @@ use InvalidArgumentException;
 
 class LuhnAlgorithm {
 
-	protected $strNumber;
-	protected $controlNumberBase;
+	protected $number;
+	protected $checkDigitBase;
+
+
+	public function __construct($number = null){
+		$this->number = $number;
+	}
 
 
 	public function checkNumber() {
+		$this->checkException();
+
+
+		$this->setcheckDigitBase();
+		$checkDigitGenerated = $this->generateCheckDigit($this->number);
 		
-		$this->getControlNumberBase();
-		$controlNumberGenerated = $this->generateControlNumber($this->strNumber);
-		
-		return $controlNumberGenerated == $this->controlNumberBase;
+		return $checkDigitGenerated == $this->checkDigitBase;
 	}
 
 
-	public function getControlNumber() {
+	public function getCheckDigit() {
+		$this->checkException();
 
- 		$controlNumberGenerated = $this->generateControlNumber($this->strNumber);
- 		return $controlNumberGenerated;		
+ 		$checkDigitGenerated = $this->generateCheckDigit($this->number);
+ 		return $checkDigitGenerated;		
 	}
 
 
 
 
 
-	public function numberSetter($number) {
+	public function setNumber($number) {
 
-		if ( ! is_string($number)) {
+		$this->number = $number;
+		$this->checkException();
+
+	}
+
+
+	private function checkException() {
+		if ( ! (is_string($this->number)) || ($this->number == null) ) {
 			throw new InvalidArgumentException;
 		}
-		$this->strNumber = $number;
+	}
 
+	private function setCheckDigitBase() {
+
+		$this->checkDigitBase = $this->number[strlen($this->number) - 1];
+		$this->number = substr($this->number, 0, - 1);
 	}
 
 
 
+	private function generateCheckDigit() {
 
-	private function getControlNumberBase() {
-
-		$this->controlNumberBase = $this->strNumber[strlen($this->strNumber) - 1];
-		$this->strNumber = substr($this->strNumber, 0, - 1);
-	}
-
-
-
-	private function generateControlNumber() {
-
-		$controlNumberGenerated = 10 - ($this->generateHashSumm() % 10);
-		if ($controlNumberGenerated == 10) {
-			$controlNumberGenerated = 0;
+		$checkDigitGenerated = 10 - ($this->generateHashSumm() % 10);
+		if ($checkDigitGenerated == 10) {
+			$checkDigitGenerated = 0;
 		}
 
-		return $controlNumberGenerated;
+		return $checkDigitGenerated;
 	
 	}
 
 	private function generateHashSumm() {
 
-		$lengthOfBaseString = strlen($this->strNumber);
+		$lengthOfBaseString = strlen($this->number);
 		$hashSumm = 0;	
 
 		for ($i = 1; $i < $lengthOfBaseString - 1; $i++) {
 
-			$num  =  $this->strNumber[$lengthOfBaseString - $i]; 
+			$num  =  $this->number[$lengthOfBaseString - $i]; 
 			if ($i % 2 == 0) {
 				$num = $num * 2;
 				if ($num > 9) {
