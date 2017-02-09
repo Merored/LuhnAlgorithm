@@ -17,10 +17,10 @@ class LuhnAlgorithm {
 	}
 
 	private function generateControlNumber() {
-		$ltnghOfBaseString = strlen($this->strNumber);
+		$lenghOfBaseString = strlen($this->strNumber);
 		$hashSumm = 0;	
-		for ($i = 1; $i < $ltnghOfBaseString-1; $i++) {
-			$num  =  $this->strNumber[$ltnghOfBaseString - $i]; 
+		for ($i = 1; $i < $lenghOfBaseString-1; $i++) {
+			$num  =  $this->strNumber[$lenghOfBaseString - $i]; 
 			if ($i % 2 == 0) {
 				$num = $num * 2;
 				if ($num > 9) {
