@@ -45,6 +45,7 @@ class LuhnAlgorithm {
 
 
 	private function checkException() {
+		
 		if ( ! (is_string($this->number)) || ($this->number == null) ) {
 			throw new InvalidArgumentException;
 		}
