@@ -8,14 +8,19 @@ class LuhnAlgorithm {
 	protected $number;
 	protected $checkDigitBase;
 
+	protected $template;
+	protected $numbersForTemplate;
 
-	public function __construct($number = null){
-		$this->number = $number;
+
+	public function __construct($numberOrTemplate = null){
+		$this->number = $numberOrTemplate;
+		$this->template = $numberOrTemplate;
+		$this->numbersForTemplate = '';
 	}
 
 
 	public function checkNumber() {
-		$this->checkException();
+		$this->checkNumberException();
 
 
 		$this->parseNumber();
@@ -26,7 +31,7 @@ class LuhnAlgorithm {
 
 
 	public function getCheckDigit() {
-		$this->checkException();
+		$this->checkNumberException();
 
  		$checkDigitGenerated = $this->generateCheckDigit($this->number);
  		return $checkDigitGenerated;		
@@ -36,20 +41,62 @@ class LuhnAlgorithm {
 
 
 
+
+
+
+
+
+	public function generateValidNumbersFromTemplate() {
+		$this->numbersForTemplate = $this->generateNumbersFromTemplate();
+		$arrayOfAllNumbersFromTemplate = $this->setNumberInTemplate();
+		return $this->checkArrayOfNumbersFromTemplate($arrayOfAllNumbersFromTemplate);
+
+	}
+
+
+
+
+
+
+
+
+
 	public function setNumber($number) {
 
 		$this->number = $number;
-		$this->checkException();
+		$this->checkNumberException();
 
 	}
 
+	public function setTemplate($template) {
 
-	private function checkException() {
+		$this->template = $template;
+		$this->checkTemplateException();
+	}
 
-		if ( ! (is_string($this->number)) || ($this->number == null) ) {
+
+
+
+
+
+
+
+
+	private function checkNumberException() {
+
+		if ( ! (is_string($this->number)) || ($this->number == null) || ( ! is_numeric($this->number))) {
 			throw new InvalidArgumentException;
 		}
 	}
+
+	private function checkTemplateException() {
+
+		if ( ! (is_string($this->template)) || ($this->template == null)) {
+			throw new InvalidArgumentException;
+		}
+	}
+
+
 
 	private function parseNumber() {
 
@@ -89,4 +136,56 @@ class LuhnAlgorithm {
 
 		return $hashSumm;
 	}
+
+
+
+
+
+
+	private function generateNumbersFromTemplate() {
+
+		$pullSize = 0;
+		for ($i = 0; $i < strlen($this->template); $i++){
+			if (! is_numeric($this->template[$i])) {
+				$pullSize++;
+			}
+		}
+		return $this->generateArrayOfNubersForTemplate($pullSize);
+	}
+
+	private function generateArrayOfNubersForTemplate($pullSize) {
+		for ($i=0; $i<=(10**$pullSize - 1); $i++) { 
+			
+			$array[] = sprintf("%0".$pullSize."u",$i); 
+			}
+		return $array;
+	}
+
+
+	private function setNumberInTemplate() {
+		for ($i = 0; $i < sizeof($this->numbersForTemplate); $i++) {
+			$numOfX = 0; $localTemplate = $this->template;
+			for ($j = 0; $j < strlen($localTemplate); $j++){
+				if ( ! is_numeric($localTemplate[$j])) {
+					$localTemplate[$j] = $this->numbersForTemplate[$i][$numOfX];
+					$numOfX++;
+				}
+			}
+			$arrayOfNumbersFromTemplate[] = $localTemplate;
+		}
+		return $arrayOfNumbersFromTemplate;
+	}
+
+
+	private function checkArrayOfNumbersFromTemplate($arrayOfAllNumbersFromTemplate) {
+		for ($i = 0; $i < sizeof($arrayOfAllNumbersFromTemplate); $i++) {
+			$this->setNumber($arrayOfAllNumbersFromTemplate[$i]);
+			if ($this->checkNumber()) {
+				$arrayOfValidNumbersfromTemplate[] = $arrayOfAllNumbersFromTemplate[$i];
+			}
+		}
+		return $arrayOfValidNumbersfromTemplate;
+	}
+
+
 }
