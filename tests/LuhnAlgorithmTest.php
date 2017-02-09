@@ -9,9 +9,6 @@ class LuhnAlgorithmTest extends PHPUnit\Framework\TestCase
 		$this->luhnAlgorithm = new LuhnAlgorithm\LuhnAlgorithm;
 	}
 
-	public function testLuhnAlgoritmExists() {
-		$this->assertInstanceOf(LuhnAlgorithm\LuhnAlgorithm::class, $this->luhnAlgorithm);
-	}
 
 	public function testCheckThrowsException() {
 		$this->expectException(InvalidArgumentException::class);	
@@ -23,12 +20,8 @@ class LuhnAlgorithmTest extends PHPUnit\Framework\TestCase
 		$this->assertTrue( $this->luhnAlgorithm->checkNumber()); 
 	}
 
-	public function testGetThrowsException() {
-		$this->expectException(InvalidArgumentException::class);	
-		$this->luhnAlgorithm->numberSetter(1);
-	}
 
-	public function testGetReturnsCorrectAnswer() {
+	public function testGenerateReturnsCorrectAnswer() {
 		$this->luhnAlgorithm->numberSetter("456126121234546");
 		$this->assertEquals("7", $this->luhnAlgorithm->getControlNumber()); 
 	}
