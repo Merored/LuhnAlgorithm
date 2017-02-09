@@ -18,6 +18,7 @@ class LuhnAlgorithmTest extends PHPUnit\Framework\TestCase
 		public function testCheckThrowsExceptionIfNotNumber() {
 		$this->expectException(InvalidArgumentException::class);	
 		$this->assertTrue( $this->luhnAlgorithm->checkNumber()); 
+		$this->assertEquals("7", $this->luhnAlgorithm->getCheckDigit()); 
 	}
 
 	public function testCheckReturnsCorrectAnswer() {

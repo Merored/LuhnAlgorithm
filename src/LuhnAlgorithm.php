@@ -18,7 +18,7 @@ class LuhnAlgorithm {
 		$this->checkException();
 
 
-		$this->setcheckDigitBase();
+		$this->parseNumber();
 		$checkDigitGenerated = $this->generateCheckDigit($this->number);
 		
 		return $checkDigitGenerated == $this->checkDigitBase;
@@ -45,15 +45,15 @@ class LuhnAlgorithm {
 
 
 	private function checkException() {
-		
+
 		if ( ! (is_string($this->number)) || ($this->number == null) ) {
 			throw new InvalidArgumentException;
 		}
 	}
 
-	private function setCheckDigitBase() {
+	private function parseNumber() {
 
-		$this->checkDigitBase = $this->number[strlen($this->number) - 1];
+		$this->checkDigitBase = $this->number[strlen($this->number) -1];
 		$this->number = substr($this->number, 0, - 1);
 	}
 
@@ -67,7 +67,6 @@ class LuhnAlgorithm {
 		}
 
 		return $checkDigitGenerated;
-	
 	}
 
 	private function generateHashSumm() {
@@ -90,5 +89,4 @@ class LuhnAlgorithm {
 
 		return $hashSumm;
 	}
-
 }
