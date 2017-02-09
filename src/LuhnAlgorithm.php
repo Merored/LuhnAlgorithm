@@ -2,71 +2,65 @@
 
 use InvalidArgumentException;
 
+
 class LuhnAlgorithm {
-	private function checkHashLuhn($str_number) {
-		$i = 1;
+	private function checkHashLuhn($strNumber) {
+		$N = strlen($strNumber);
+		$summ = 0;	
+		for ($i = 1; $i < $N-1; $i++) {
+			$num  =  $strNumber[$N - $i]; 
+			if ($i % 2 == 0) {
+				$num = $num * 2;
+				if ($num > 9) {
+					$num = $num - 9;
+				}
 
-		if (strlen($str_number) % 2 == 0) {
-			$i = 0;
-		}
-
-		
-		for ($i; $i < strlen($str_number); $i++) {
-			$num  =  $str_number[$i] * 2; 
-
-			if ($num > 9) {
-				$num = $num - 9;
 			}
 
-			$str_number[$i] = $num;
-			$i++;  
-		}
-		$summ = 0;
-		for ($i = 0; $i < strlen($str_number); $i++) {
-			$summ += $str_number[$i];
-
-		}
-		return $summ;
-			
-	}
-
-
-
-
-	public function checkLuhn($str_number) {
-		$luhnAlgorithm = new LuhnAlgorithm;
-
-		if (!is_string($str_number)) {
-			throw new InvalidArgumentException;
+			$summ += $num;
+			$sum = $summ;
 		}
 
 
-		$summ = $luhnAlgorithm->checkHashLuhn($str_number);
-		if ($summ % 10 == 0) {
-			return "true";
-		}
-		return "false";
-	}
-
-
-
-
-
-	public function getLuhn($str_number) {
-		$luhnAlgorithm = new LuhnAlgorithm;
-		
-		if (!is_string($str_number)) {
-			throw new InvalidArgumentException;
-		}
-
-
-		$summ = $luhnAlgorithm->checkHashLuhn($str_number);
 		$summ = 10 - ($summ % 10);
 		if ($summ == 10) {
 			$summ = 0;
 		}
-		$summ = $str_number[strlen($str_number)-1] + $summ;		
+		return $summ;
+	
+	}
 
-		return $summ;		
+
+
+
+	public function checkLuhn($strNumber) {
+
+		if (!is_string($strNumber)) {
+			throw new InvalidArgumentException;
+		}
+
+		$Hash = $strNumber[strlen($strNumber) - 1]	;
+		$strNumber  = substr($strNumber, 0, -1);
+		$summ = $this->checkHashLuhn($strNumber);
+		if ($summ == $Hash) {
+			return true;
+		}
+		return false;
+	}
+
+
+
+
+
+	public function getLuhn($strNumber) {
+		
+		
+		if (!is_string($strNumber)) {
+			throw new InvalidArgumentException;
+		}
+
+
+ 		$summ = $this->checkHashLuhn($strNumber);
+ 		return $summ;		
 	}
 }

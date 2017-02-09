@@ -18,8 +18,8 @@ class LuhnAlgorithmTest extends PHPUnit\Framework\TestCase
 		$this->luhnAlgorithm->checkLuhn(1);
 	}
 
-	public function testCheckReturnsCurrectAwnser() {
-		$this->assertEquals("true", $this->luhnAlgorithm->checkLuhn("4561261212345467")); 
+	public function testCheckReturnsCorrectAnswer() {
+		$this->assertTrue( $this->luhnAlgorithm->checkLuhn("4561261212345467")); 
 	}
 
 	public function testGetThrowsException() {
@@ -27,8 +27,8 @@ class LuhnAlgorithmTest extends PHPUnit\Framework\TestCase
 		$this->luhnAlgorithm->getLuhn(1);
 	}
 
-	public function testGetReturnsCurrectAwnser() {
-		$this->assertEquals("7", $this->luhnAlgorithm->getLuhn("4561261212345464")); 
+	public function testGetReturnsCorrectAnswer() {
+		$this->assertEquals("7", $this->luhnAlgorithm->getLuhn("456126121234546")); 
 	}
 
 	
