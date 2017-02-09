@@ -16,11 +16,11 @@ class LuhnAlgorithm {
 
 	}
 
-	private function checkHashLuhn() {
-		$N = strlen($this->strNumber);
-		$summ = 0;	
-		for ($i = 1; $i < $N-1; $i++) {
-			$num  =  $this->strNumber[$N - $i]; 
+	private function generateControlNumber() {
+		$ltnghOfBaseString = strlen($this->strNumber);
+		$hashSumm = 0;	
+		for ($i = 1; $i < $ltnghOfBaseString-1; $i++) {
+			$num  =  $this->strNumber[$ltnghOfBaseString - $i]; 
 			if ($i % 2 == 0) {
 				$num = $num * 2;
 				if ($num > 9) {
@@ -29,39 +29,37 @@ class LuhnAlgorithm {
 
 			}
 
-			$summ += $num;
+			$hashSumm += $num;
 		}
 
 
-		$summ = 10 - ($summ % 10);
-		if ($summ == 10) {
-			$summ = 0;
+		$controlNumbergenerated = 10 - ($hashSumm % 10);
+		if ($controlNumbergenerated == 10) {
+			$controlNumbergenerated = 0;
 		}
-		return $summ;
+		return $controlNumbergenerated;
 	
 	}
 
 
 
 
-	public function checkLuhn() {
+	public function checkNumber() {
 
-		$Hash = $this->strNumber[strlen($this->strNumber) - 1]	;
+		$controlNumberBase = $this->strNumber[strlen($this->strNumber) - 1]	;
 		$this->strNumber  = substr($this->strNumber, 0, -1);
-		$summ = $this->checkHashLuhn($this->strNumber);
-		if ($summ == $Hash) {
-			return true;
-		}
-		return false;
+		$controlNumbergenerated = $this->generateControlNumber($this->strNumber);
+		
+		return $controlNumbergenerated == $controlNumberBase;
 	}
 
 
 
 
 
-	public function getLuhn() {
+	public function getControlNumber() {
 
- 		$summ = $this->checkHashLuhn($this->strNumber);
- 		return $summ;		
+ 		$controlNumbergenerated = $this->generateControlNumber($this->strNumber);
+ 		return $controlNumbergenerated;		
 	}
 }
