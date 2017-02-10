@@ -20,20 +20,20 @@ class LuhnAlgorithm {
 
 
 	public function checkNumber() {
-		$this->checkNumberException();
+		$this->checkNumberException();	
 
 
 		$this->parseNumber();
-		$checkDigitGenerated = $this->generateCheckDigit($this->number);
-		
+		$checkDigitGenerated = $this->generateCheckDigit();
 		return $checkDigitGenerated == $this->checkDigitBase;
 	}
 
 
 	public function getCheckDigit() {
 		$this->checkNumberException();
+		$this->number = $this->number."0";
 
- 		$checkDigitGenerated = $this->generateCheckDigit($this->number);
+ 		$checkDigitGenerated = $this->generateCheckDigit();
  		return $checkDigitGenerated;		
 	}
 
@@ -100,8 +100,8 @@ class LuhnAlgorithm {
 
 	private function parseNumber() {
 
-		$this->checkDigitBase = $this->number[strlen($this->number) -1];
-		$this->number = substr($this->number, 0, - 1);
+		$this->checkDigitBase = $this->number[strlen($this->number) - 1];
+		$this->number[strlen($this->number) - 1] = "0";	
 	}
 
 
@@ -121,9 +121,9 @@ class LuhnAlgorithm {
 		$lengthOfBaseString = strlen($this->number);
 		$hashSumm = 0;	
 
-		for ($i = 1; $i < $lengthOfBaseString - 1; $i++) {
+		for ($i = 1; $i <= $lengthOfBaseString; $i++) {
 
-			$num  =  $this->number[$lengthOfBaseString - $i]; 
+			$num = $this->number[$lengthOfBaseString - $i]; 
 			if ($i % 2 == 0) {
 				$num = $num * 2;
 				if ($num > 9) {
@@ -131,7 +131,7 @@ class LuhnAlgorithm {
 				}
 			}
 
-			$hashSumm += $num;
+			$hashSumm = $hashSumm + $num;
 		}
 
 		return $hashSumm;
@@ -150,10 +150,10 @@ class LuhnAlgorithm {
 				$pullSize++;
 			}
 		}
-		return $this->generateArrayOfNubersForTemplate($pullSize);
+		return $this->generateArrayOfNumbersForTemplate($pullSize);
 	}
 
-	private function generateArrayOfNubersForTemplate($pullSize) {
+	private function generateArrayOfNumbersForTemplate($pullSize) {
 		for ($i=0; $i<=(10**$pullSize - 1); $i++) { 
 			
 			$array[] = sprintf("%0".$pullSize."u",$i); 
@@ -178,6 +178,7 @@ class LuhnAlgorithm {
 
 
 	private function checkArrayOfNumbersFromTemplate($arrayOfAllNumbersFromTemplate) {
+		$arrayOfValidNumbersfromTemplate = null;
 		for ($i = 0; $i < sizeof($arrayOfAllNumbersFromTemplate); $i++) {
 			$this->setNumber($arrayOfAllNumbersFromTemplate[$i]);
 			if ($this->checkNumber()) {

@@ -25,12 +25,24 @@ class LuhnAlgorithmTest extends PHPUnit\Framework\TestCase
 	public function testCheckReturnsCorrectAnswer() {
 		$this->luhnAlgorithm->setNumber("4561261212345467");
 		$this->assertTrue($this->luhnAlgorithm->checkNumber()); 
+		$this->luhnAlgorithm->setNumber("45612612123454");
+		$this->assertTrue($this->luhnAlgorithm->checkNumber());
+		$this->luhnAlgorithm->setNumber("4561261212345");
+		$this->assertFalse($this->luhnAlgorithm->checkNumber());
+		$this->luhnAlgorithm->setNumber("45612612123");
+		$this->assertFalse($this->luhnAlgorithm->checkNumber());
 	}
 
 
 	public function testGenerateReturnsCorrectAnswer() {
 		$this->luhnAlgorithm->setNumber("456126121234546");
 		$this->assertEquals("7", $this->luhnAlgorithm->getCheckDigit()); 
+		$this->luhnAlgorithm->setNumber("456126121234");
+		$this->assertEquals("1", $this->luhnAlgorithm->getCheckDigit());
+		$this->luhnAlgorithm->setNumber("65466465");
+		$this->assertEquals("5", $this->luhnAlgorithm->getCheckDigit());
+		$this->luhnAlgorithm->setNumber("78899253232632556");
+		$this->assertEquals("2", $this->luhnAlgorithm->getCheckDigit());
 	}
 
 	public function testNumberSetterThrowsExceptionIfTemplate() {
@@ -44,7 +56,7 @@ class LuhnAlgorithmTest extends PHPUnit\Framework\TestCase
 		$this->luhnAlgorithm->setTemplate("4561261212345467");
 		$this->assertEquals(["4561261212345467"],$this->luhnAlgorithm->generateValidNumbersFromTemplate()); 
 		$this->luhnAlgorithm->setTemplate("124X5");
-		$this->assertEquals(["12475"],$this->luhnAlgorithm->generateValidNumbersFromTemplate()); 
+		$this->assertEquals(["12435"],$this->luhnAlgorithm->generateValidNumbersFromTemplate()); 
 	}
 
 
